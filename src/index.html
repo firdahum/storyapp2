@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="id">
+  <head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Bagikan cerita dan pengalaman Anda dengan lokasi. Jelajahi cerita dari seluruh dunia dalam satu aplikasi." />
+    <meta name="theme-color" content="#2196f3" />
+    <title>My Story App - Firda Humaira</title>
+
+    <link rel="icon" href="/favicon.png" />
+    <link rel="manifest" href="/manifest.json" />
+    <link rel="apple-touch-icon" href="/icons/android-chrome-192x192.png" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+    <link rel="stylesheet" href="/styles.css" />
+
+    <script type="module" src="/scripts/index.js" defer></script>
+  </head>
+  <body>
+    <a href="#main-content" class="skip-link">Lompat ke konten utama</a>
+
+    <header>
+      <div class="main-header container" role="banner">
+        <a class="brand-name" href="#/" aria-label="Halaman utama My Story App"> My Story App </a>
+
+        <nav
+          id="navigation-drawer"
+          class="navigation-drawer"
+          aria-label="Navigasi utama"
+          role="navigation"
+        >
+          <ul id="nav-list" class="nav-list">
+            <li><a href="#/">Dashboard</a></li>
+            <li><a href="#/favorites">❤️ Favorit</a></li>
+            <li><a href="#/about">About</a></li>
+            <li><a href="#/geomap">Geo-Map</a></li>
+            <li><a href="#/uploadstory">Upload Story</a></li>
+            <li><a href="#/login" id="login-link">Login</a></li>
+          </ul>
+        </nav>
+
+        <button id="drawer-button" class="drawer-button" aria-label="Buka menu navigasi">☰</button>
+      </div>
+    </header>
+
+    <main id="main-content" class="main-content" role="main">
+      <section id="app" aria-label="Konten Utama"></section>
+    </main>
+
+    <footer role="contentinfo" class="footer container">
+      <p>
+        Submission Intermediate Pertama - Story App. Dibuat oleh
+        <strong>Firda Humaira</strong>
+      </p>
+    </footer>
+
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+        const loginLink = document.getElementById('login-link');
+        if (loginLink) {
+          const token = localStorage.getItem('bt_token');
+          if (token) {
+            loginLink.textContent = 'Keluar';
+            loginLink.addEventListener('click', (e) => {
+              e.preventDefault();
+              localStorage.removeItem('bt_token');
+              localStorage.removeItem('bt_user');
+              window.location.reload();
+            });
+          } else {
+            loginLink.textContent = 'Masuk';
+            loginLink.addEventListener('click', (e) => {
+              e.preventDefault();
+              window.location.hash = '#/login';
+            });
+          }
+        }
+      });
+    </script>
+  </body>
+</html>

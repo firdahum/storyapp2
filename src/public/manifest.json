@@ -1,0 +1,103 @@
+{
+  "name": "My Story App - Share Your Stories",
+  "short_name": "StoryApp",
+  "description": "Bagikan cerita dan pengalaman Anda dengan lokasi. Jelajahi cerita dari seluruh dunia dalam satu aplikasi.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#ffffff",
+  "theme_color": "#2196f3",
+  "categories": ["social", "lifestyle", "photos"],
+  "icons": [
+    {
+      "src": "/icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/android-chrome-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable"
+    },
+    {
+      "src": "/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/android-chrome-512x512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/screenshoot-dashboard.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Dashboard dengan peta dan daftar cerita"
+    },
+    {
+      "src": "/screenshots/screenshoot-upload.png",
+      "sizes": "540x720",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Upload cerita dengan foto dan lokasi"
+    },
+    {
+      "src": "/screenshots/screenshoot-dekstop.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Tampilan desktop dengan peta interaktif"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Dashboard",
+      "short_name": "Beranda",
+      "description": "Lihat semua cerita di peta",
+      "url": "/#/dashboard",
+      "icons": [
+        {
+          "src": "/icons/android-chrome-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Upload Story",
+      "short_name": "Upload",
+      "description": "Bagikan cerita baru",
+      "url": "/#/upload",
+      "icons": [
+        {
+          "src": "/icons/android-chrome-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    },
+    {
+      "name": "Geo Map",
+      "short_name": "Peta",
+      "description": "Jelajahi cerita di peta",
+      "url": "/#/geomap",
+      "icons": [
+        {
+          "src": "/icons/android-chrome-192x192.png",
+          "sizes": "192x192",
+          "type": "image/png"
+        }
+      ]
+    }
+  ],
+  "prefer_related_applications": false
+}

@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Anda sedang offline - My Story App">
+  <meta name="theme-color" content="#2196f3">
+  <title>Offline - My Story App</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .offline-container {
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 500px;
+      width: 100%;
+      padding: 40px 30px;
+      text-align: center;
+      animation: slideUp 0.5s ease-out;
+    }
+
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .icon {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% {
+        transform: scale(1);
+      }
+      50% {
+        transform: scale(1.05);
+      }
+    }
+
+    .icon svg {
+      width: 60px;
+      height: 60px;
+      fill: white;
+    }
+
+    h1 {
+      font-size: 28px;
+      margin-bottom: 15px;
+      color: #333;
+      font-weight: 700;
+    }
+
+    p {
+      font-size: 16px;
+      line-height: 1.6;
+      color: #666;
+      margin-bottom: 30px;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 25px;
+      color: #856404;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 20px;
+    }
+
+    .status-indicator {
+      width: 10px;
+      height: 10px;
+      background: #ffc107;
+      border-radius: 50%;
+      animation: blink 1.5s ease-in-out infinite;
+    }
+
+    @keyframes blink {
+      0%, 100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.3;
+      }
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 32px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      text-decoration: none;
+      border-radius: 30px;
+      font-weight: 600;
+      font-size: 16px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      border: none;
+      cursor: pointer;
+      margin: 5px;
+    }
+
+    .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn:active {
+      transform: translateY(0);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+    }
+
+    .features {
+      margin-top: 30px;
+      padding-top: 30px;
+      border-top: 1px solid #eee;
+    }
+
+    .features h2 {
+      font-size: 18px;
+      margin-bottom: 15px;
+      color: #333;
+    }
+
+    .feature-list {
+      display: grid;
+      gap: 12px;
+      text-align: left;
+    }
+
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: #f8f9fa;
+      border-radius: 10px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .feature-icon {
+      width: 24px;
+      height: 24px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .feature-icon svg {
+      width: 14px;
+      height: 14px;
+      fill: white;
+    }
+
+    @media (max-width: 480px) {
+      .offline-container {
+        padding: 30px 20px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      p {
+        font-size: 14px;
+      }
+
+      .btn {
+        padding: 12px 24px;
+        font-size: 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="offline-container">
+    <div class="icon">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+        <path d="M23.64 7c-.45-.34-4.93-4-11.64-4C5.28 3 .81 6.66.36 7L12 21.5 23.64 7z" opacity=".3"/>
+        <path d="M3.53 10.95l8.46 10.54 8.46-10.54C20.04 10.62 16.81 8 12 8s-8.04 2.62-8.47 2.95z"/>
+      </svg>
+    </div>
+
+    <div class="status">
+      <span class="status-indicator"></span>
+      <span>Mode Offline</span>
+    </div>
+
+    <h1>Anda Sedang Offline</h1>
+    <p>
+      Koneksi internet tidak tersedia saat ini. Beberapa fitur mungkin terbatas, 
+      tetapi Anda masih dapat melihat cerita yang sudah dimuat sebelumnya.
+    </p>
+
+    <div style="margin-top: 20px;">
+      <button class="btn" onclick="window.location.reload()">
+        🔄 Coba Lagi
+      </button>
+      <a href="/#/dashboard" class="btn btn-secondary">
+        🏠 Kembali ke Beranda
+      </a>
+    </div>
+
+    <div class="features">
+      <h2>Yang Masih Bisa Anda Lakukan:</h2>
+      <div class="feature-list">
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+            </svg>
+          </div>
+          <span>Lihat cerita yang sudah dimuat</span>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+            </svg>
+          </div>
+          <span>Jelajahi peta lokasi cerita</span>
+        </div>
+        <div class="feature-item">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+            </svg>
+          </div>
+          <span>Navigasi antar halaman aplikasi</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Auto-retry saat online kembali
+    window.addEventListener('online', () => {
+      const notification = document.createElement('div');
+      notification.textContent = '✅ Koneksi kembali! Memuat ulang...';
+      notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #4caf50;
+        color: white;
+        padding: 15px 30px;
+        border-radius: 30px;
+        font-weight: 600;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        z-index: 9999;
+        animation: slideDown 0.3s ease-out;
+      `;
+      document.body.appendChild(notification);
+      
+      setTimeout(() => {
+        window.location.reload();
+      }, 1500);
+    });
+
+    // Update status indikator berdasarkan koneksi
+    function updateStatus() {
+      const status = document.querySelector('.status');
+      const indicator = document.querySelector('.status-indicator');
+      
+      if (navigator.onLine) {
+        status.style.background = '#d4edda';
+        status.style.borderColor = '#28a745';
+        status.style.color = '#155724';
+        indicator.style.background = '#28a745';
+        status.querySelector('span:last-child').textContent = 'Online';
+      } else {
+        status.style.background = '#fff3cd';
+        status.style.borderColor = '#ffc107';
+        status.style.color = '#856404';
+        indicator.style.background = '#ffc107';
+        status.querySelector('span:last-child').textContent = 'Mode Offline';
+      }
+    }
+
+    window.addEventListener('online', updateStatus);
+    window.addEventListener('offline', updateStatus);
+    updateStatus();
+  </script>
+</body>
+</html>
