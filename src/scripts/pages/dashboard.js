@@ -2,7 +2,7 @@ import L from 'leaflet';
 import { fetchStories } from '../api/api.js';
 // PushHelper functionality moved to service worker
 import { favoritesDB } from '../utils/favorites-db.js';
-import CONFIG from '../config.js';
+import SETTINGS from '../config.js';
 
 export default class DashboardPage {
   async render() {
@@ -597,20 +597,62 @@ export default class DashboardPage {
       notifSwitch.checked = !!sub;
       sidebarNotifSwitch.checked = !!sub;
 
+      // Single message listener for service worker responses
+      navigator.serviceWorker.addEventListener('message', (event) => {
+        if (event.data.type === 'PUSH_SUBSCRIBE_SUCCESS') {
+          notifSwitch.checked = true;
+          sidebarNotifSwitch.checked = true;
+          Swal.fire({
+            icon: 'success',
+            title: 'Notifikasi Diaktifkan',
+            text: 'Anda akan menerima pemberitahuan push.',
+            timer: 2000,
+            showConfirmButton: false,
+          });
+        } else if (event.data.type === 'PUSH_SUBSCRIBE_ERROR') {
+          console.error('Push subscribe error:', event.data.error);
+          notifSwitch.checked = false;
+          sidebarNotifSwitch.checked = false;
+          Swal.fire({
+            icon: 'error',
+            title: 'Gagal Mengaktifkan Notifikasi',
+            text: 'Silakan coba lagi atau periksa pengaturan browser.',
+            confirmButtonColor: '#dc2626',
+          });
+        } else if (event.data.type === 'PUSH_UNSUBSCRIBE_SUCCESS') {
+          notifSwitch.checked = false;
+          sidebarNotifSwitch.checked = false;
+          Swal.fire({
+            icon: 'info',
+            title: 'Notifikasi Dimatikan',
+            text: 'Anda tidak akan menerima pemberitahuan push.',
+            timer: 2000,
+            showConfirmButton: false,
+          });
+        } else if (event.data.type === 'PUSH_UNSUBSCRIBE_ERROR') {
+          console.error('Push unsubscribe error:', event.data.error);
+          // Keep switches as they were
+        }
+      });
+
       // Sync both switches
-      const handleNotifToggle = async (isChecked, sourceSwitch) => {
+      const handleNotifToggle = async (isChecked) => {
         if (isChecked) {
           try {
-            await PushHelper.subscribeUser(reg);
-            notifSwitch.checked = true;
-            sidebarNotifSwitch.checked = true;
-            Swal.fire({
-              icon: 'success',
-              title: 'Notifikasi Diaktifkan',
-              text: 'Anda akan menerima pemberitahuan push.',
-              timer: 2000,
-              showConfirmButton: false,
+            // Get token and VAPID key from config
+            const token = localStorage.getItem('bt_token');
+            const vapidKey = SETTINGS.VAPID_PUBLIC_KEY;
+
+            if (!token || !vapidKey) {
+              throw new Error('Authentication required for push notifications');
+            }
+
+            // Send message to service worker to handle subscription
+            reg.active.postMessage({
+              type: 'SUBSCRIBE_PUSH',
+              payload: { token, vapidKey }
             });
+
           } catch (err) {
             console.error(err);
             notifSwitch.checked = false;
@@ -623,25 +665,32 @@ export default class DashboardPage {
             });
           }
         } else {
-          await PushHelper.unsubscribeUser(reg);
-          notifSwitch.checked = false;
-          sidebarNotifSwitch.checked = false;
-          Swal.fire({
-            icon: 'info',
-            title: 'Notifikasi Dimatikan',
-            text: 'Anda tidak akan menerima pemberitahuan push.',
-            timer: 2000,
-            showConfirmButton: false,
-          });
+          try {
+            const token = localStorage.getItem('bt_token');
+
+            if (!token) {
+              throw new Error('Authentication required for push notifications');
+            }
+
+            // Send message to service worker to handle unsubscription
+            reg.active.postMessage({
+              type: 'UNSUBSCRIBE_PUSH',
+              payload: { token }
+            });
+
+          } catch (err) {
+            console.error(err);
+            // Keep switches as they were
+          }
         }
       };
 
       notifSwitch.addEventListener('change', async () => {
-        await handleNotifToggle(notifSwitch.checked, 'main');
+        await handleNotifToggle(notifSwitch.checked);
       });
 
       sidebarNotifSwitch.addEventListener('change', async () => {
-        await handleNotifToggle(sidebarNotifSwitch.checked, 'sidebar');
+        await handleNotifToggle(sidebarNotifSwitch.checked);
       });
     } else {
       notifSwitch.disabled = true;
