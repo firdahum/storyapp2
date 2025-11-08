@@ -69,6 +69,17 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray;
 }
 
+// Helper function to convert ArrayBuffer to base64
+function arrayBufferToBase64(buffer) {
+  const bytes = new Uint8Array(buffer);
+  let binary = '';
+  for (let i = 0; i < bytes.byteLength; i++) {
+    binary += String.fromCharCode(bytes[i]);
+  }
+
+  return self.btoa(binary);
+}
+
 // INSTALL
 self.addEventListener('install', (evt) => {
   console.log('Service Worker installed');
@@ -239,16 +250,22 @@ self.addEventListener('sync', (event) => {
 async function subscribePush(payload) {
   try {
     const { token, vapidKey } = payload;
+
     const subscription = await self.registration.pushManager.subscribe({
       userVisibleOnly: true,
       applicationServerKey: urlBase64ToUint8Array(vapidKey),
     });
 
+    // Ambil key dari subscription
+    const p256dh = arrayBufferToBase64(subscription.getKey('p256dh'));
+    const auth = arrayBufferToBase64(subscription.getKey('auth'));
+
+    // Perbaikan struktur JSON
     const subscriptionPayload = {
       endpoint: subscription.endpoint,
       keys: {
-        p256dh: subscription.keys?.p256dh,
-        auth: subscription.keys?.auth,
+        p256dh,
+        auth,
       },
     };
 
@@ -262,24 +279,30 @@ async function subscribePush(payload) {
     });
 
     if (!res.ok) {
+      const text = await res.text();
+      console.error('Response text:', text);
       throw new Error(`Subscribe failed: ${res.status}`);
     }
 
-    // Send success message back to client
-    self.clients.matchAll().then(clients => {
-      clients.forEach(client => {
+    // Kirim notifikasi sukses ke client
+    self.clients.matchAll().then((clients) => {
+      clients.forEach((client) => {
         client.postMessage({ type: 'PUSH_SUBSCRIBE_SUCCESS' });
       });
     });
   } catch (err) {
     console.error('Push subscribe failed:', err);
-    self.clients.matchAll().then(clients => {
-      clients.forEach(client => {
-        client.postMessage({ type: 'PUSH_SUBSCRIBE_ERROR', error: err.message });
+    self.clients.matchAll().then((clients) => {
+      clients.forEach((client) => {
+        client.postMessage({
+          type: 'PUSH_SUBSCRIBE_ERROR',
+          error: err.message,
+        });
       });
     });
   }
 }
+
 
 async function unsubscribePush(payload) {
   try {
